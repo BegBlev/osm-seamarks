@@ -20,6 +20,7 @@ class SHOMSeamarkList(list):
     def filter(self, lat, lon, dist):
         return SHOMSeamarkList(seamark for seamark in self if distance.distance((seamark.lat, seamark.lon), (lat, lon)).meters < dist)
 
+
 @dataclass
 class SHOMDescription:
     """Class for SHOM description"""
@@ -56,6 +57,7 @@ class SHOMDescription:
                 else:
                     print("CATCAM is not coherent with COLOUR")
                     print(self.attributes)
+
 
 @dataclass
 class SHOMBeacon:
@@ -101,6 +103,7 @@ class SHOMBeacon:
         osm_result.update({"tags": {"type": self.type}})
 
         return osm_result
+
 
 if __name__ == '__main__':
     seamarks = SHOMSeamarkList.from_file(SHOM_FILE).filter(48.80773, -3.56122, 10000)
