@@ -103,11 +103,11 @@ class SHOMBeacon:
         self.data.validate()
 
     def osm_dict(self, osm_id=None):
-        osm_result = {"type:": "node"}
+        osm_result = {"type:": "node", "tags": {}}
         osm_result.update({"id": osm_id} if osm_id != None else {})
         osm_result.update({"lon": self.lon, "lat": self.lat})
 
-        osm_result.update({"tags": {"type": self.type}})
+        osm_result["tags"].update({"type": self.type})
 
         if __ALADIN__:
             if self.aladin_id != None:
