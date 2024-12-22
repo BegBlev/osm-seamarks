@@ -16,3 +16,14 @@ Building `.json` files from `.gml` is actually an xml query followed by a format
 ```
 make db
 ```
+
+## OSM handling
+OSM handling is made using `osm.py` code. This code allow to:
+* get relevant OSM nodes (seamarks) in a specified area
+* list the seamarks
+* display data
+* validate data
+
+```
+python3 osm.py
+```
