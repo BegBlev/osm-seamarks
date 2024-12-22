@@ -2,6 +2,7 @@ import re
 import json
 from dataclasses import dataclass
 from geopy import distance
+import json
 
 __ALADIN__ = True
 
@@ -123,5 +124,6 @@ if __name__ == '__main__':
 
     for seamark in seamarks:
         print(seamark)
-        print(f"OSM JSON: {seamark.osm_dict()}")
+        print("OSM JSON:")
+        print(json.dumps(seamark.osm_dict(), indent=2))
         seamark.validate()
