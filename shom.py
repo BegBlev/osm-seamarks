@@ -3,6 +3,8 @@ import json
 from dataclasses import dataclass
 from geopy import distance
 
+__ALADIN__ = True
+
 SHOM_FILE="json-db/beacon-cardinal.json"
 
 class SHOMSeamarkList(list):
@@ -63,6 +65,7 @@ class SHOMDescription:
 class SHOMBeacon:
     """Class for SHOM beacon"""
     id: str
+    aladin_id: str
     lat: float
     lon: float
     type: str
@@ -75,6 +78,10 @@ class SHOMBeacon:
         self.lat, self.lon = shom_data["tn:geometry"]["gml:Point"]["gml:pos"].split(" ")
 
         self.data = SHOMDescription(shom_data["gml:description"])
+
+        if "numald" in self.data.attributes:
+            if self.data.attributes["numald"] != '':
+                self.aladin_id = self.data.attributes["numald"]
 
         # Check this is a cardinal beacon
         #assert(shom_data["gml:description"].find("BCNCAR") != -1)
@@ -101,6 +108,10 @@ class SHOMBeacon:
         osm_result.update({"lon": self.lon, "lat": self.lat})
 
         osm_result.update({"tags": {"type": self.type}})
+
+        if __ALADIN__:
+            if self.aladin_id != None:
+                osm_result["tags"].update({"ref:aladin": self.aladin_id})
 
         return osm_result
 
