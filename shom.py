@@ -70,6 +70,7 @@ class SHOMSeamark:
     lat: float
     lon: float
     type: str
+    category: str
     data: SHOMDescription
 
     def __init__(self, shom_data):
@@ -84,21 +85,23 @@ class SHOMSeamark:
             if self.data.attributes["numald"] != '':
                 self.aladin_id = self.data.attributes["numald"]
 
+        self.type = "unknown"
+
         # Check this is a cardinal beacon
         #assert(shom_data["gml:description"].find("BCNCAR") != -1)
 
-        type = shom_data["gml:description"][shom_data["gml:description"].find("CATCAM"):][len("CATCAM :"):len("CATCAM :")+1]
+        category = shom_data["gml:description"][shom_data["gml:description"].find("CATCAM"):][len("CATCAM :"):len("CATCAM :")+1]
 
-        if type == "1":
-            self.type = "north"
-        elif type == "2":
-            self.type = "east"
-        elif type == "3":
-            self.type = "south"
-        elif type == "4":
-            self.type = "west"
+        if category == "1":
+            self.category = "north"
+        elif category == "2":
+            self.category = "east"
+        elif category == "3":
+            self.category = "south"
+        elif category == "4":
+            self.category = "west"
         else:
-            raise ValueError('Seamark type unknown')
+            raise ValueError('Seamark category unknown')
 
     def validate(self):
         self.data.validate()
