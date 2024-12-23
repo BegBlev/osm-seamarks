@@ -107,7 +107,7 @@ class SHOMSeamark:
         # Check this is a cardinal beacon
         #assert(shom_data["gml:description"].find("BCNCAR") != -1)
 
-        category = shom_data["gml:description"][shom_data["gml:description"].find("CATCAM"):][len("CATCAM :"):len("CATCAM :")+1]
+        category = self.data.attributes["CATCAM"]
 
         if category == "1":
             self.category = "north"
