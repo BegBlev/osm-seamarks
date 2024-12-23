@@ -64,7 +64,7 @@ class SHOMDescription:
 
 @dataclass
 class SHOMSeamark:
-    """Class for SHOM beacon"""
+    """Class for SHOM seamark"""
     id: str
     aladin_id: str
     lat: float
