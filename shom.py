@@ -72,6 +72,7 @@ class SHOMSeamark:
     type: str
     category: str
     data: SHOMDescription
+    height: float = None
 
     def __init__(self, shom_data):
         assert(re.match("BALISAGE_FR[0-9]{15}", shom_data["@gml:id"]))
@@ -119,6 +120,10 @@ class SHOMSeamark:
         else:
             raise ValueError('Seamark category unknown')
 
+        if "HEIGHT" in self.data.attributes:
+            if self.data.attributes["HEIGHT"] != '':
+                self.height = float(self.data.attributes["HEIGHT"])
+
     def validate(self):
         self.data.validate()
 
@@ -136,6 +141,9 @@ class SHOMSeamark:
                 osm_result["tags"].update({"ref:aladin": self.aladin_id})
 
         osm_result["tags"].update({f"seammark:{self.type}:category": self.category})
+
+        if self.height != None:
+            osm_result["tags"].update({f"height": self.height})
 
         return osm_result
 
