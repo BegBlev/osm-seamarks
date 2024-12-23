@@ -119,6 +119,8 @@ class SHOMSeamark:
             if self.aladin_id != None:
                 osm_result["tags"].update({"ref:aladin": self.aladin_id})
 
+        osm_result["tags"].update({f"seammark:{self.type}:category": self.category})
+
         return osm_result
 
 
