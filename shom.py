@@ -18,7 +18,7 @@ class SHOMSeamarkList(list):
         with open(filename, 'r') as shomfile:
             shom_seamarks = json.load(shomfile)
 
-            return cls(SHOMBeacon(seamark) for seamark in shom_seamarks)
+            return cls(SHOMSeamark(seamark) for seamark in shom_seamarks)
 
     def filter(self, lat, lon, dist):
         return SHOMSeamarkList(seamark for seamark in self if distance.distance((seamark.lat, seamark.lon), (lat, lon)).meters < dist)
@@ -63,7 +63,7 @@ class SHOMDescription:
 
 
 @dataclass
-class SHOMBeacon:
+class SHOMSeamark:
     """Class for SHOM beacon"""
     id: str
     aladin_id: str
@@ -98,7 +98,7 @@ class SHOMBeacon:
         elif type == "4":
             self.type = "west"
         else:
-            raise ValueError('Beacon type unknown')
+            raise ValueError('Seamark type unknown')
 
     def validate(self):
         self.data.validate()
