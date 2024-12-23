@@ -85,7 +85,23 @@ class SHOMSeamark:
             if self.data.attributes["numald"] != '':
                 self.aladin_id = self.data.attributes["numald"]
 
-        self.type = "unknown"
+        if shom_data["type"] in ["beacon", "buoy"]:
+            if "CATCAM" in self.data.attributes:
+                if shom_data["type"] == "beacon" and self.data.attributes["CATCAM"] in ["1", "2", "3", "4"]:
+                    self.type = "beacon_cardinal"
+                elif shom_data["type"] == "buoy" and self.data.attributes["CATCAM"] in ["1", "2", "3", "4"]:
+                    self.type = "buoy_cardinal"
+                else:
+                    raise ValueError(f'Combination of seamark type ({shom_data["type"]}) and category ({self.data.attributes["CATCAM"]}) is not allowed for cardinal.')
+            elif "CATLAM" in self.data.attributes:
+                if shom_data["type"] == "beacon" and self.data.attributes["CATLAM"] in ["1", "2", "3", "4"]:
+                    self.type = "beacon_lateral"
+                elif shom_data["type"] == "buoy" and self.data.attributes["CATLAM"] in ["1", "2", "3", "4"]:
+                    self.type = "buoy_lateral"
+                else:
+                    raise ValueError(f'Combination of seamark type ({shom_data["type"]}) and category ({self.data.attributes["CATCAM"]}) is not allowed for lateral')
+            else:
+                raise ValueError('CATCAM or CATLAM attributes must be pesent')
 
         # Check this is a cardinal beacon
         #assert(shom_data["gml:description"].find("BCNCAR") != -1)

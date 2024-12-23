@@ -24,13 +24,13 @@ ${JSON_DB_PATH}:
 	mkdir -p ${JSON_DB_PATH}
 
 ${JSON_DB_PATH}/beacon-cardinal.json: ${GML_PATH}/tn-w_beacon_cardinal.gml
-	xq-python '[."gml:FeatureCollection"."gml:featureMember"[]."tn-w:Beacon"]' $< > $@
+	xq-python '[."gml:FeatureCollection"."gml:featureMember"[]."tn-w:Beacon"+{"type": "beacon"}]' $< > $@
 
 ${JSON_DB_PATH}/beacon-lateral.json: ${GML_PATH}/tn-w_beacon_lateral.gml
-	xq-python '[."gml:FeatureCollection"."gml:featureMember"[]."tn-w:Beacon"]' $< > $@
+	xq-python '[."gml:FeatureCollection"."gml:featureMember"[]."tn-w:Beacon"+{"type": "beacon"}]' $< > $@
 
 ${JSON_DB_PATH}/buoy-lateral.json: ${GML_PATH}/tn-w_buoy_lateral.gml
-	xq-python '[."gml:FeatureCollection"."gml:featureMember"[]."tn-w:Buoy"]' $< > $@
+	xq-python '[."gml:FeatureCollection"."gml:featureMember"[]."tn-w:Buoy"+{"type": "buoy"}]' $< > $@
 
 ${JSON_DB_PATH}/buoy-cardinal.json: ${GML_PATH}/tn-w_buoy_cardinal.gml
-	xq-python '[."gml:FeatureCollection"."gml:featureMember"[]."tn-w:Buoy"]' $< > $@
+	xq-python '[."gml:FeatureCollection"."gml:featureMember"[]."tn-w:Buoy"+{"type": "buoy"}]' $< > $@
