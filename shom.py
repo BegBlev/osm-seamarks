@@ -111,7 +111,7 @@ class SHOMSeamark:
         osm_result.update({"id": osm_id} if osm_id != None else {})
         osm_result.update({"lon": self.lon, "lat": self.lat})
 
-        osm_result["tags"].update({"type": self.type})
+        osm_result["tags"].update({"seamark:type": self.type})
 
         osm_result["tags"].update({"ref:inspire": f"http://www.shom.fr/BDML/BALISAGE/{self.id}"})
 
