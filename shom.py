@@ -110,6 +110,8 @@ class SHOMSeamark:
 
         osm_result["tags"].update({"type": self.type})
 
+        osm_result["tags"].update({"ref:inspire": f"http://www.shom.fr/BDML/BALISAGE/{self.id}"})
+
         if __ALADIN__:
             if self.aladin_id != None:
                 osm_result["tags"].update({"ref:aladin": self.aladin_id})
