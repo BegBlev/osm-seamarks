@@ -128,7 +128,7 @@ class SHOMSeamark:
         self.data.validate()
 
     def osm_dict(self, osm_id=None):
-        osm_result = {"type:": "node", "tags": {}}
+        osm_result = {"type": "node", "tags": {}}
         osm_result.update({"id": osm_id} if osm_id != None else {})
         osm_result.update({"lon": self.lon, "lat": self.lat})
 
