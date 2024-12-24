@@ -78,7 +78,10 @@ class SHOMSeamark:
         assert(re.match("BALISAGE_FR[0-9]{15}", shom_data["@gml:id"]))
 
         self.id = shom_data["@gml:id"].removeprefix("BALISAGE_")
-        self.lat, self.lon = shom_data["tn:geometry"]["gml:Point"]["gml:pos"].split(" ")
+        lat, lon = shom_data["tn:geometry"]["gml:Point"]["gml:pos"].split(" ")
+
+        self.lat = float(lat)
+        self.lon = float(lon)
 
         self.data = SHOMDescription(shom_data["gml:description"])
 
