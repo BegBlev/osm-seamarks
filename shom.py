@@ -105,6 +105,7 @@ class SHOMSeamark:
 
         if shom_data["type"] in ["beacon", "buoy"]:
             if "CATCAM" in self.data.attributes:
+                # This is a cardinal seamark
                 if shom_data["type"] == "beacon" and self.data.attributes["CATCAM"] in ["1", "2", "3", "4"]:
                     self.type = "beacon_cardinal"
                 elif shom_data["type"] == "buoy" and self.data.attributes["CATCAM"] in ["1", "2", "3", "4"]:
@@ -115,6 +116,7 @@ class SHOMSeamark:
                 self.category = __CATCAM__[self.data.attributes["CATCAM"]]
 
             elif "CATLAM" in self.data.attributes:
+                # This is a lateral seamark
                 if shom_data["type"] == "beacon" and self.data.attributes["CATLAM"] in ["1", "2", "3", "4"]:
                     self.type = "beacon_lateral"
                 elif shom_data["type"] == "buoy" and self.data.attributes["CATLAM"] in ["1", "2", "3", "4"]:
