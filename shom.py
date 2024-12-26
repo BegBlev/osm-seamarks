@@ -8,6 +8,23 @@ __ALADIN__ = True
 
 SHOM_FILE="json-db/beacon-cardinal.json"
 
+__COLOURS__ = {
+    "1": "white",
+    "2": "black",
+    "3": "red",
+    "4": "green",
+    "5": "blue",
+    "6": "yellow",
+    "7": "grey",
+    "11": "orange",
+}
+
+__COLOUR_PATTERNS__ = {
+    "1": "horizontal",
+    "2": "vertical",
+    "3": "diagonal",
+}
+
 __CATCAM__ = {
     "1": "north",
     "2": "east",
@@ -21,6 +38,18 @@ __CATLAM__ = {
     "3": "preferred_channel_starboard",
     "4": "preferred_channel_port",
 }
+
+def __colours2txt__(colours):
+    colourtxt = ""
+
+    for colour in colours.split(","):
+        if colourtxt != "":
+            colourtxt += ";"
+
+        colourtxt += __COLOURS__[colour]
+
+    return colourtxt
+
 
 class SHOMSeamarkList(list):
     def __init__(self, seamarks):
@@ -75,6 +104,8 @@ class SHOMDescription:
                     print("CATCAM is not coherent with COLOUR")
                     print(self.attributes)
 
+        #print(self.attributes)
+
 
 @dataclass
 class SHOMSeamark:
@@ -87,6 +118,8 @@ class SHOMSeamark:
     category: str
     data: SHOMDescription
     height: float = None
+    colour: str = None
+    colour_pattern: str = None
 
     def __init__(self, shom_data):
         assert(re.match("BALISAGE_FR[0-9]{15}", shom_data["@gml:id"]))
@@ -135,6 +168,14 @@ class SHOMSeamark:
             if self.data.attributes["HEIGHT"] != '':
                 self.height = float(self.data.attributes["HEIGHT"])
 
+        if "COLOUR" in self.data.attributes:
+            if self.data.attributes["COLOUR"] != '':
+                self.colour = __colours2txt__(self.data.attributes["COLOUR"])
+
+        if "COLPAT" in self.data.attributes:
+            if self.data.attributes["COLPAT"] != '':
+                self.colour_pattern = __COLOUR_PATTERNS__[self.data.attributes["COLPAT"]]
+
     def validate(self):
         self.data.validate()
 
@@ -155,6 +196,11 @@ class SHOMSeamark:
 
         if self.height != None:
             osm_result["tags"].update({f"height": self.height})
+
+        osm_result["tags"].update({f"seammark:{self.type}:colour": self.colour})
+
+        if self.colour_pattern != None:
+            osm_result["tags"].update({f"seammark:{self.type}:colour_pattern": self.colour_pattern})
 
         return osm_result
 
