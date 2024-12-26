@@ -8,6 +8,20 @@ __ALADIN__ = True
 
 SHOM_FILE="json-db/beacon-cardinal.json"
 
+__CATCAM__ = {
+    "1": "north",
+    "2": "east",
+    "3": "south",
+    "4": "west",
+}
+
+__CATLAM__ = {
+    "1": "port",
+    "2": "starboard",
+    "3": "preferred_channel_starboard",
+    "4": "preferred_channel_port",
+}
+
 class SHOMSeamarkList(list):
     def __init__(self, seamarks):
             super().__init__(seamarks)
@@ -97,6 +111,9 @@ class SHOMSeamark:
                     self.type = "buoy_cardinal"
                 else:
                     raise ValueError(f'Combination of seamark type ({shom_data["type"]}) and category ({self.data.attributes["CATCAM"]}) is not allowed for cardinal.')
+
+                self.category = __CATCAM__[self.data.attributes["CATCAM"]]
+
             elif "CATLAM" in self.data.attributes:
                 if shom_data["type"] == "beacon" and self.data.attributes["CATLAM"] in ["1", "2", "3", "4"]:
                     self.type = "beacon_lateral"
@@ -104,24 +121,13 @@ class SHOMSeamark:
                     self.type = "buoy_lateral"
                 else:
                     raise ValueError(f'Combination of seamark type ({shom_data["type"]}) and category ({self.data.attributes["CATLAM"]}) is not allowed for lateral')
+
+                self.category = __CATLAM__[self.data.attributes["CATLAM"]]
             else:
                 raise ValueError('CATCAM or CATLAM attributes must be pesent')
 
         # Check this is a cardinal beacon
         #assert(shom_data["gml:description"].find("BCNCAR") != -1)
-
-        category = self.data.attributes["CATCAM"]
-
-        if category == "1":
-            self.category = "north"
-        elif category == "2":
-            self.category = "east"
-        elif category == "3":
-            self.category = "south"
-        elif category == "4":
-            self.category = "west"
-        else:
-            raise ValueError('Seamark category unknown')
 
         if "HEIGHT" in self.data.attributes:
             if self.data.attributes["HEIGHT"] != '':
