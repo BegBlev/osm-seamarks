@@ -103,7 +103,7 @@ class SHOMSeamark:
                 elif shom_data["type"] == "buoy" and self.data.attributes["CATLAM"] in ["1", "2", "3", "4"]:
                     self.type = "buoy_lateral"
                 else:
-                    raise ValueError(f'Combination of seamark type ({shom_data["type"]}) and category ({self.data.attributes["CATCAM"]}) is not allowed for lateral')
+                    raise ValueError(f'Combination of seamark type ({shom_data["type"]}) and category ({self.data.attributes["CATLAM"]}) is not allowed for lateral')
             else:
                 raise ValueError('CATCAM or CATLAM attributes must be pesent')
 
