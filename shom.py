@@ -39,6 +39,16 @@ __CATLAM__ = {
     "4": "preferred_channel_port",
 }
 
+__BCNSHP__ = {
+    "1": "pole",
+    "2": "withy",
+    "3": "tower",
+    "4": "pile",
+    "5": "lattice",
+    "6": "cairn",
+    "7": "buoyant",
+}
+
 def __colours2txt__(colours):
     colourtxt = ""
 
@@ -176,6 +186,10 @@ class SHOMSeamark:
             if self.data.attributes["COLPAT"] != '':
                 self.colour_pattern = __COLOUR_PATTERNS__[self.data.attributes["COLPAT"]]
 
+        if "BCNSHP" in self.data.attributes:
+            if self.data.attributes["BCNSHP"] != '':
+                self.shape = __BCNSHP__[self.data.attributes["BCNSHP"]]
+
     def validate(self):
         self.data.validate()
 
@@ -201,6 +215,9 @@ class SHOMSeamark:
 
         if self.colour_pattern != None:
             osm_result["tags"].update({f"seammark:{self.type}:colour_pattern": self.colour_pattern})
+
+        if self.shape != None:
+            osm_result["tags"].update({f"seammark:{self.type}:shape": self.shape})
 
         return osm_result
 
